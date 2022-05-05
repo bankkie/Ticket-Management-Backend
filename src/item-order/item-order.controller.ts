@@ -12,13 +12,40 @@ export class ItemOrderController {
     return this.itemOrderService.create(createItemOrderDto);
   }
 
-  @Get()
-  findAll(@Query() query) {
+  @Get('/ticket-type')
+  findByTicketType(@Query() query) {
     const take = query.take || 10
     const skip = query.skip || 0
     const { type } = query
 
-    return this.itemOrderService.findAll(type, take, skip);
+    return this.itemOrderService.findByTicketType(type, take, skip);
+  }
+
+  @Get('/ticket-date')
+  findByDate(@Query() query) {
+    const take = query.take || 10
+    const skip = query.skip || 0
+    const { date } = query
+
+    return this.itemOrderService.findByDate(date, take, skip);
+  }
+
+  @Get('/check-status')
+  findByDateForCheckStatus(@Query() query) {
+    const take = query.take || 10
+    const skip = query.skip || 0
+    const { date } = query
+
+    return this.itemOrderService.findByDateForCheckStatus(date, take, skip);
+  }
+
+  @Get('/ticket-date-type')
+  findByTicketTypeAndDate(@Query() query) {
+    const take = query.take || 10
+    const skip = query.skip || 0
+    const { type, date } = query
+
+    return this.itemOrderService.findByTicketTypeAndDate(type, date, take, skip);
   }
 
   @Get(':id')
