@@ -12,6 +12,14 @@ export class ItemOrderController {
     return this.itemOrderService.create(createItemOrderDto);
   }
 
+  @Get('')
+  findAll(@Query() query) {
+    const take = query.take || 10
+    const skip = query.skip || 0
+
+    return this.itemOrderService.findAll(take, skip);
+  }
+
   @Get('/ticket-type')
   findByTicketType(@Query() query) {
     const take = query.take || 10

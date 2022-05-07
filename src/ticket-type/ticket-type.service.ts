@@ -11,23 +11,27 @@ export class TicketTypeService {
     @InjectRepository(TicketType)
     private ticketTypesRepository: Repository<TicketType>,
   ) {}
-  create(createTicketTypeDto: CreateTicketTypeDto) {
-    return 'This action adds a new ticketType';
+  async create(createTicketTypeDto: CreateTicketTypeDto) {
+    const ticket = this.ticketTypesRepository.create({
+      ...createTicketTypeDto
+    });
+    return await this.ticketTypesRepository.save(ticket);
   }
 
   findAll() {
     return this.ticketTypesRepository.find();
   }
 
-  findOne(id: number) {
+  findOne(id: string) {
     return `This action returns a #${id} ticketType`;
   }
 
-  update(id: number, updateTicketTypeDto: UpdateTicketTypeDto) {
-    return `This action updates a #${id} ticketType`;
+  async update(id: string, updateTicketTypeDto: UpdateTicketTypeDto) {
+    return await this.ticketTypesRepository.save(updateTicketTypeDto);
   }
 
-  remove(id: number) {
+  remove(id: string) {
+    this.ticketTypesRepository.delete(id);
     return `This action removes a #${id} ticketType`;
   }
 }

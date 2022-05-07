@@ -22,7 +22,7 @@ export class ItemOrderService {
 
   async findByTicketType(type, take, skip) {
   const [data, count] = await this.itemOrdersRepository.findAndCount({
-        relations: ['ticketType'],
+        relations: ['ticketType', 'user'],
           where: {
             ticketType: {
               type: type
@@ -37,9 +37,21 @@ export class ItemOrderService {
     }
   }
 
+  async findAll(take, skip) {
+    const [data, count] = await this.itemOrdersRepository.findAndCount({
+      relations: ['ticketType', 'user'],
+      take: take,
+      skip: skip
+    })
+    return {
+       data: data,
+       count: count
+    }
+  }
+
   async findByDate(date, take, skip) {
     const [data, count] = await this.itemOrdersRepository.findAndCount({
-      relations: ['ticketType'],
+      relations: ['ticketType', 'user'],
       where: {
         date: date
       },
@@ -53,7 +65,6 @@ export class ItemOrderService {
   }
 
   async findByDateForCheckStatus(date, take, skip) {
-    console.log('xxxx')
     const query =  this.itemOrdersRepository.createQueryBuilder('itemOrder')
     query.select(["SUM(itemOrder.amount) AS sum"])
       .addSelect(['ticketType.type', 'ticketType.id'])
@@ -69,7 +80,7 @@ export class ItemOrderService {
 
     async findByTicketTypeAndDate(type, date, take, skip) {
       const [data, count] = await this.itemOrdersRepository.findAndCount({
-        relations: ['ticketType'],
+        relations: ['ticketType', 'user'],
         where: {
           ticketType: {
             type: type
